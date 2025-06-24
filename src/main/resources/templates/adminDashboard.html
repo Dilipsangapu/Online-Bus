@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard | OnlineBus</title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<div class="admin-wrapper">
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <h2>🛠 Admin Panel</h2>
+        <ul class="sidebar-menu">
+            <li onclick="showSection('addAgent')">➕ Add Agent</li>
+            <li onclick="showSection('viewAgents')">📋 View Agents</li>
+        </ul>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+
+        <!-- Add Agent Section -->
+        <section id="addAgentSection" class="content-section">
+            <h2>Add New Agent</h2>
+            <form id="agentForm">
+                <div class="form-row"><input type="text" name="name" placeholder="Travels/Agency Name" required></div>
+                <div class="form-row"><input type="text" name="contactPerson" placeholder="Contact Person Name" required></div>
+                <div class="form-row"><input type="email" name="email" placeholder="Email" required></div>
+                <div class="form-row"><input type="text" name="phone" placeholder="Phone Number" required></div>
+                <div class="form-row"><input type="password" name="password" placeholder="Password" required></div>
+                <div class="form-row"><input type="password" name="confirmPassword" placeholder="Confirm Password" required></div>
+                <div class="form-row">
+                    <button type="submit" class="btn-submit">Add Agent</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- View Agents Section -->
+        <section id="viewAgentsSection" class="content-section" style="display: none;">
+            <h2>All Registered Agents</h2>
+            <div id="agentList" class="agent-list">
+                <p>Loading...</p>
+            </div>
+        </section>
+
+    </div>
+</div>
+
+<script src="/js/admin.js"></script>
+</body>
+</html>

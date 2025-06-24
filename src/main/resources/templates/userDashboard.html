@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>User Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        padding: 40px;
+        background: #f0fdfd;
+    }
+    .dashboard {
+        max-width: 600px;
+        margin: auto;
+        background: white;
+        padding: 40px;
+        border-radius: 12px;
+        box-shadow: 0 0 12px rgba(0,0,0,0.08);
+        text-align: center;
+    }
+    h1 {
+        color: #00b39f;
+    }
+  </style>
+</head>
+<body>
+
+<div class="dashboard">
+  <h1 th:text="${welcomeMessage}">Welcome</h1>
+  <p>More features coming soon...</p>
+</div>
+
+</body>
+</html>

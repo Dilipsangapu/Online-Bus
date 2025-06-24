@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Bus</title>
+    <link rel="stylesheet" href="/css/agent.css" />
+</head>
+<body>
+<div class="container">
+    <h2>Edit Bus Details</h2>
+    <form th:action="@{'/agent/edit-bus/' + ${bus.id}}"
+          th:object="${bus}" method="post" class="form-layout">
+        <input type="text" th:field="*{busName}" placeholder="Bus Name" required />
+        <input type="text" th:field="*{busNumber}" placeholder="Bus Number" required />
+        <select th:field="*{busType}" required>
+            <option>AC Seater</option>
+            <option>AC Sleeper</option>
+            <option>Non-AC Seater</option>
+            <option>Non-AC Sleeper</option>
+            <option>Mixed</option>
+        </select>
+        <select th:field="*{deckType}" required>
+            <option>Single</option>
+            <option>Upper + Lower</option>
+        </select>
+        <input type="number" th:field="*{sleeperCount}" placeholder="Sleeper Seats" />
+        <input type="number" th:field="*{seaterCount}" placeholder="Seater Seats" />
+        <input type="number" th:field="*{totalSeats}" placeholder="Total Seats" readonly />
+        <input type="text" th:field="*{operatorId}" placeholder="Agent ID" readonly />
+        <input type="text" th:field="*{operatorName}" placeholder="Agent Name" readonly />
+        <button type="submit" class="btn-submit">Save Changes</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Online Bus Booking</title>
+    <link rel="stylesheet" th:href="@{/css/landing.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<!-- ✅ Navbar -->
+<nav class="navbar">
+    <div class="logo">🚌 <span style="color: #007bff;">OnlineBus</span></div>
+    <ul class="nav-links">
+        <li><a th:href="@{/}">Home</a></li>
+        <li><a href="#search-section">Search Buses</a></li>
+        <li><a th:href="@{/login}">Login</a></li>
+        <li><a th:href="@{/register}">Register</a></li>
+    </ul>
+</nav>
+
+<!-- ✅ Hero Section -->
+<section class="hero">
+    <div class="hero-content">
+        <h1>Book Your Journey Instantly</h1>
+        <p>India’s Smartest Bus Booking Platform for Hassle-Free Travel</p>
+        <a href="#search-section" class="cta-button">Book a Bus Now</a>
+    </div>
+    <img src="https://cdn-icons-png.flaticon.com/512/2620/2620972.png" alt="Bus Travel" class="hero-img" />
+</section>
+
+<!-- ✅ Search Bus Section - Upgraded -->
+<section id="search-section" class="search-section">
+    <h2>Search Buses</h2>
+    <div class="search-card">
+        <form class="search-form">
+            <div class="input-group">
+                <label><span>🛫 From</span></label>
+                <input type="text" placeholder="Enter departure city" required />
+            </div>
+
+            <div class="input-group">
+                <label><span>🛬 To</span></label>
+                <input type="text" placeholder="Enter destination city" required />
+            </div>
+
+            <div class="input-group">
+                <label><span>📅 Journey Date</span></label>
+                <input type="date" required />
+            </div>
+
+            <button type="submit" disabled class="search-btn">🔍 Search Buses</button>
+            <p class="note">You must login before booking a seat.</p>
+        </form>
+    </div>
+</section>
+
+
+<!-- ✅ Trust Banner -->
+<section class="trust-banner">
+    <h3>Why Choose OnlineBus?</h3>
+    <div class="features">
+        <div class="feature-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/1946/1946488.png" alt="Secure" />
+            <h4>Secure Bookings</h4>
+            <p>100% safe and verified transactions with OTP login.</p>
+        </div>
+        <div class="feature-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/2548/2548530.png" alt="Affordable" />
+            <h4>Lowest Prices</h4>
+            <p>Partnered with top travel agencies to offer you best deals.</p>
+        </div>
+        <div class="feature-card">
+            <img src="https://cdn-icons-png.flaticon.com/512/2965/2965567.png" alt="Support" />
+            <h4>24x7 Support</h4>
+            <p>Need help? Our support team is available anytime you need.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ✅ Footer -->
+<footer>
+    <p>&copy; 2025 OnlineBus. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

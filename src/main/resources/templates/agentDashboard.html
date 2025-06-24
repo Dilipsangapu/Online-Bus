@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Agent Dashboard</title>
+    <link rel="stylesheet" href="/css/agent.css" />
+</head>
+<body th:data-email="${session.email}" th:data-name="${session.name}">
+<div class="dashboard-wrapper">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <h2>🚌 Agent</h2>
+        <ul>
+            <li class="active" onclick="showSection('dashboard')">📊 Dashboard</li>
+            <li onclick="showSection('buses')">🚌 Buses</li>
+            <li onclick="showSection('routes')">🗺️ Routes</li>
+            <li onclick="showSection('layout')">💺 Seat Layout & 💰 Pricing</li>
+            <li onclick="showSection('staff')">👨‍✈️ Staff</li>
+            <li onclick="showSection('schedule')">📅 Schedule</li>
+            <li onclick="showSection('bookings')">📖 Bookings</li>
+        </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Dashboard -->
+        <section id="dashboardSection" class="dashboard-section active">
+            <h2>📊 Dashboard</h2>
+            <div class="grid-2">
+                <div class="card">
+                    <h3>Total Trips</h3>
+                    <p id="totalTrips">0</p>
+                </div>
+                <div class="card">
+                    <h3>Monthly Revenue</h3>
+                    <p id="monthlyRevenue">₹0</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Buses -->
+        <!-- Buses -->
+        <section id="busesSection" class="dashboard-section">
+            <h2>🚌 Add & Manage Buses</h2>
+            <form id="busForm" class="form-layout">
+                <input type="text" name="busName" id="busName" placeholder="Bus Name" required />
+                <input type="text" name="busNumber" id="busNumber" placeholder="Bus Number" required />
+
+                <select name="busType" id="busType" required>
+                    <option value="">Select Type</option>
+                    <option>AC Seater</option>
+                    <option>AC Sleeper</option>
+                    <option>Non-AC Seater</option>
+                    <option>Non-AC Sleeper</option>
+                    <option>Mixed</option>
+                </select>
+
+                <select name="deckType" id="deckType" required>
+                    <option value="">Select Deck</option>
+                    <option>Single</option>
+                    <option>Upper + Lower</option>
+                </select>
+
+                <input type="number" name="sleeperSeats" id="sleeperSeats" placeholder="Sleeper Seats" />
+                <input type="number" name="seaterSeats" id="seaterSeats" placeholder="Seater Seats" />
+
+                <button type="submit" class="btn-submit">Save Bus</button>
+            </form>
+
+            <table class="bus-table">
+                <thead>
+                <tr>
+                    <th>Bus Name</th>
+                    <th>Number</th>
+                    <th>Type</th>
+                    <th>Total Seats</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody id="busTableBody">
+                <!-- Bus rows will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </section>
+
+
+        <!-- Routes -->
+        <section id="routesSection" class="dashboard-section">
+            <h2>🗺️ Configure Routes</h2>
+            <form id="routeForm" class="form-layout">
+                <input type="text" name="from" placeholder="From City" required />
+                <input type="text" name="to" placeholder="To City" required />
+                <input type="text" name="stops" placeholder="Intermediate Stops (comma separated)" />
+                <input type="text" name="timings" placeholder="e.g., 10:00 AM - 2:00 PM" required />
+                <button type="submit" class="btn-submit">Add Route</button>
+            </form>
+            <div id="routeList"></div>
+        </section>
+
+        <!-- Layout -->
+        <section id="layoutSection" class="dashboard-section">
+            <h2>💺 Seat Layout & 💰 Pricing</h2>
+            <div id="seatLayoutBusCards" class="bus-cards-grid"></div>
+
+            <div class="deck-tabs">
+                <button onclick="switchDeck('lower')" id="lowerTab" class="deck-tab active">Lower Deck</button>
+                <button onclick="switchDeck('upper')" id="upperTab" class="deck-tab">Upper Deck</button>
+            </div>
+
+            <div class="legend">
+                Legend:
+                <span class="seat-legend seater">Seater</span>
+                <span class="seat-legend sleeper">Sleeper</span>
+            </div>
+
+            <div id="lowerDeck" class="seat-grid"></div>
+            <div id="upperDeck" class="seat-grid" style="display: none;"></div>
+        </section>
+
+        <!-- Staff -->
+        <section id="staffSection" class="dashboard-section">
+            <h2>👨‍✈️ Driver & Staff Info</h2>
+            <form id="staffForm" class="form-layout">
+                <input type="text" name="driverName" placeholder="Driver Name" required />
+                <input type="text" name="driverContact" placeholder="Contact Number" required />
+                <input type="text" name="conductorName" placeholder="Conductor Name" />
+                <input type="text" name="conductorContact" placeholder="Contact Number" />
+                <button type="submit" class="btn-submit">Add Staff</button>
+            </form>
+            <div id="staffList"></div>
+        </section>
+
+        <!-- Schedule -->
+        <section id="scheduleSection" class="dashboard-section">
+            <h2>📅 Schedule Trips</h2>
+            <form id="scheduleForm" class="form-layout">
+                <input type="text" name="route" placeholder="Route ID or Name" required />
+                <input type="text" name="days" placeholder="Days (e.g. Mon, Tue, Daily)" required />
+                <button type="submit" class="btn-submit">Add Schedule</button>
+            </form>
+            <div id="tripScheduleList"></div>
+        </section>
+
+        <!-- Bookings -->
+        <section id="bookingsSection" class="dashboard-section">
+            <h2>📖 View Bookings</h2>
+            <div id="bookingList"></div>
+        </section>
+    </main>
+</div>
+<script src="/js/agent.js"></script>
+</body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login | OnlineBus</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<div class="login-wrapper">
+
+    <!-- ✨ Left: Branding Panel with Cards -->
+    <div class="left-panel">
+        <div class="branding-content">
+            <h1 class="logo-title">🚌 OnlineBus</h1>
+            <p class="tagline">Travel. Simplified.</p>
+            <div class="feature-cards">
+                <div class="card fade-in">
+                    <h3>🎯 Book Instantly</h3>
+                    <p>Search buses and book in seconds with real-time availability.</p>
+                </div>
+                <div class="card fade-in delay-1">
+                    <h3>👤 Role-based Access</h3>
+                    <p>Separate dashboards for Admin, Agents, and Users.</p>
+                </div>
+                <div class="card fade-in delay-2">
+                    <h3>📱 Mobile Ready</h3>
+                    <p>Seamless experience across devices.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ✅ Right: Login Card -->
+    <div class="right-panel">
+        <div class="login-card fade-in delay-1">
+            <h2>Welcome Back</h2>
+            <p class="subtext">Login to your dashboard</p>
+
+            <form th:action="@{/process-login}" method="post" class="login-form">
+                <div class="form-group">
+                    <input type="email" name="email" required placeholder=" " />
+                    <label>Email address</label>
+                </div>
+
+                <div class="form-group">
+                    <input type="password" name="password" required placeholder=" " />
+                    <label>Password</label>
+                </div>
+
+                <button type="submit" class="login-btn">🚀 Login</button>
+            </form>
+
+            <p class="footer-note">New here? <a th:href="@{/register}">Create your account</a></p>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

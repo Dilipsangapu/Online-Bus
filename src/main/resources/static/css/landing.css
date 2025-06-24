@@ -1,0 +1,307 @@
+/* Reset */
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: "Segoe UI", sans-serif;
+    background-color: #f7f9fc;
+    color: #333;
+    scroll-behavior: smooth;
+}
+
+/* Fade in on page load */
+body {
+    opacity: 0;
+    animation: fadeIn 1.2s ease-in forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 32px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.navbar .logo {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #007bff;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 24px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #333;
+    font-weight: 500;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.nav-links a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    height: 2px;
+    width: 0%;
+    background: #007bff;
+    transition: width 0.3s ease;
+}
+
+.nav-links a:hover::after {
+    width: 100%;
+}
+
+/* Hero */
+.hero {
+    background: linear-gradient(to right, #e3f2fd, #ffffff);
+    padding: 100px 20px 80px 20px;
+    text-align: center;
+    transition: background 0.5s ease;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    animation: slideDown 0.7s ease;
+}
+
+.hero p {
+    font-size: 1.3rem;
+    margin-bottom: 20px;
+    animation: slideDown 0.7s ease;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.cta-button {
+    background-color: #007bff;
+    color: white;
+    padding: 14px 32px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+/* Search Section */
+.search-section {
+    padding: 60px 20px 80px 20px;
+    background-color: #ffffff;
+    text-align: center;
+}
+
+.search-section h2 {
+    margin-bottom: 20px;
+    font-size: 2rem;
+}
+
+.search-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    max-width: 400px;
+    margin: 0 auto;
+    animation: fadeIn 1s ease;
+}
+
+.search-form input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+}
+
+.search-form button {
+    background-color: #007bff;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: not-allowed;
+}
+
+.note {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+/* Footer */
+footer {
+    background-color: #f1f1f1;
+    padding: 24px 0;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .search-form {
+        width: 90%;
+    }
+
+    .nav-links {
+        gap: 12px;
+        font-size: 0.95rem;
+    }
+}
+/* Hero Image */
+.hero {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.hero-img {
+    width: 320px;
+    max-width: 80%;
+    margin-top: 20px;
+    animation: fadeIn 1s ease;
+}
+
+/* Trust Banner Section */
+.trust-banner {
+    padding: 60px 20px;
+    background-color: #eef6fd;
+    text-align: center;
+}
+
+.trust-banner h3 {
+    font-size: 2rem;
+    margin-bottom: 40px;
+}
+
+.features {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.feature-card {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    padding: 20px;
+    width: 260px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-6px);
+}
+
+.feature-card img {
+    width: 60px;
+    margin-bottom: 12px;
+}
+/* Search Card Styling */
+.search-card {
+    max-width: 500px;
+    background: #ffffff;
+    margin: 30px auto 0 auto;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    padding: 32px 24px;
+    transition: transform 0.3s ease;
+}
+
+.search-card:hover {
+    transform: translateY(-4px);
+}
+
+.search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.input-group label {
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: inline-block;
+    color: #555;
+    font-size: 0.95rem;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Search Button */
+.search-btn {
+    background-color: #007bff;
+    color: #fff;
+    padding: 14px;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: not-allowed; /* until backend ready */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.search-btn:hover {
+    background-color: #0056b3;
+    transform: translateY(-2px);
+}
+
+.note {
+    font-size: 0.85rem;
+    color: #777;
+    text-align: center;
+    margin-top: 8px;
+}

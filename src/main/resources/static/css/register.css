@@ -1,0 +1,203 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+body, html {
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0fdfd;
+  color: #333;
+  height: 100vh;
+  overflow-x: hidden;
+}
+
+.register-wrapper {
+  display: flex;
+  height: 100%;
+}
+
+/* Left Panel */
+.left-panel {
+  width: 50%;
+  background: linear-gradient(135deg, #00c6a2, #61e8c6);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 60px 40px;
+  animation: fadeZoom 1s ease;
+}
+
+@keyframes fadeZoom {
+  from { transform: scale(0.95); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.app-name {
+  font-size: 2.4rem;
+  margin-bottom: 10px;
+}
+
+.headline {
+  font-size: 1.3rem;
+  margin-bottom: 30px;
+}
+
+.badge-cards {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.card {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 20px;
+  border-radius: 14px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease;
+}
+.card:hover {
+  transform: translateY(-4px);
+}
+.card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 5px;
+}
+.card p {
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+/* Right Panel */
+.right-panel {
+  width: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f0fdfd;
+  padding: 40px 24px;
+}
+
+.register-card {
+  background: white;
+  padding: 36px 32px;
+  border-radius: 18px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 460px;
+  animation: fadeInUp 0.8s ease;
+}
+
+@keyframes fadeInUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+.register-card h2 {
+  font-size: 1.7rem;
+  color: #00b39f;
+  margin-bottom: 8px;
+}
+.subtext {
+  color: #666;
+  font-size: 0.95rem;
+  margin-bottom: 24px;
+}
+
+/* Form */
+.register-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  position: relative;
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  padding: 14px 12px;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background: transparent;
+  appearance: none;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: #00b39f;
+  outline: none;
+  box-shadow: 0 0 6px rgba(0, 179, 159, 0.2);
+}
+
+.form-group label {
+  position: absolute;
+  top: 50%;
+  left: 12px;
+  transform: translateY(-50%);
+  background: white;
+  padding: 0 6px;
+  color: #888;
+  font-size: 0.95rem;
+  transition: 0.2s ease;
+  pointer-events: none;
+}
+
+.form-group input:focus + label,
+.form-group input:not(:placeholder-shown) + label {
+  top: -10px;
+  left: 10px;
+  font-size: 0.75rem;
+  color: #00b39f;
+}
+
+/* Buttons */
+.register-btn {
+  padding: 14px;
+  background: #00b39f;
+  color: white;
+  font-weight: bold;
+  font-size: 1rem;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.register-btn:hover {
+  background: #008c7e;
+  transform: translateY(-2px);
+}
+
+/* Footer */
+.footer-note {
+  margin-top: 18px;
+  text-align: center;
+  font-size: 0.9rem;
+}
+.footer-note a {
+  color: #00b39f;
+  font-weight: 500;
+  text-decoration: none;
+}
+.footer-note a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media screen and (max-width: 900px) {
+  .register-wrapper {
+    flex-direction: column;
+  }
+  .left-panel, .right-panel {
+    width: 100%;
+  }
+  .badge-cards {
+    align-items: center;
+  }
+}
