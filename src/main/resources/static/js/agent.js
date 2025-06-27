@@ -1,5 +1,7 @@
+// agent.js (Fully functional and optimized for buses and routes)
 let selectedBus = null;
 let editingBusId = null;
+let editingRouteId = null;
 
 // Show section from sidebar
 function showSection(sectionId) {
@@ -12,15 +14,40 @@ function showSection(sectionId) {
   if (sectionId === "dashboard") loadDashboardStats();
   if (sectionId === "buses") fetchBuses();
   if (sectionId === "layout") fetchBusesForLayout();
+  if (sectionId === "routes") loadRoutes();
 }
 
-// Dashboard dummy stats
 function loadDashboardStats() {
   document.getElementById("totalTrips").innerText = Math.floor(Math.random() * 30) + 5;
   document.getElementById("monthlyRevenue").innerText = "₹" + (10000 + Math.floor(Math.random() * 50000));
 }
 
-// Handle bus add/edit form submit
+// ---------------- BUS HANDLING ---------------- //
+function fetchBuses() {
+  const agentId = document.body.getAttribute("data-email");
+  fetch(`/buses/api/by-operator/${agentId}`)
+    .then(res => {
+      if (!res.ok) throw new Error("Failed to fetch buses");
+      return res.json();
+    })
+    .then(buses => {
+      const tableBody = document.getElementById("busTableBody");
+      tableBody.innerHTML = "";
+      buses.forEach(bus => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${bus.busName}</td>
+          <td>${bus.busNumber}</td>
+          <td>${bus.busType}</td>
+          <td>${bus.totalSeats}</td>
+          <td><a href="/buses/edit/${bus.id}" class="btn-edit">Edit</a></td>
+        `;
+        tableBody.appendChild(row);
+      });
+    })
+    .catch(err => console.error("Failed to load assigned buses", err));
+}
+
 document.getElementById("busForm")?.addEventListener("submit", e => {
   e.preventDefault();
   const form = e.target;
@@ -40,9 +67,7 @@ document.getElementById("busForm")?.addEventListener("submit", e => {
   };
 
   const method = editingBusId ? "PUT" : "POST";
-  const url = editingBusId
-    ? `/api/buses/update/${editingBusId}`
-    : "/api/buses/add";
+  const url = editingBusId ? `/buses/api/update/${editingBusId}` : "/buses/api/add";
 
   fetch(url, {
     method: method,
@@ -56,71 +81,69 @@ document.getElementById("busForm")?.addEventListener("submit", e => {
       editingBusId = null;
       fetchBuses();
     })
-    .catch(err => {
-      console.error("Error saving bus:", err);
-    });
+    .catch(err => console.error("Error saving bus:", err));
 });
 
-// Fetch and display buses
-function fetchBuses() {
-  const agentId = document.body.getAttribute("data-email");
-  fetch(`/api/buses/by-operator/${agentId}`)
-    .then(res => {
-      if (!res.ok) throw new Error("Failed to fetch buses");
-      return res.json();
-    })
+// ---------------- ROUTE HANDLING ---------------- //
+function loadRoutes() {
+  const email = document.body.getAttribute("data-email");
+  fetch(`/buses/api/by-operator/${email}`)
+    .then(res => res.json())
     .then(buses => {
-      const tableBody = document.getElementById("busTableBody");
-      if (!tableBody) return;
+      const routeList = document.getElementById("routeList");
+      routeList.innerHTML = "";
 
-      tableBody.innerHTML = "";
       buses.forEach(bus => {
-        const row = document.createElement("tr");
+        fetch(`/api/routes/by-bus/${bus.id}`)
+          .then(res => res.json())
+          .then(routes => {
+            if (routes.length === 0) return;
 
-        const encodedBus = encodeURIComponent(JSON.stringify(bus));
+            const section = document.createElement("div");
+            section.innerHTML = `<h4>🚌 ${bus.busName}</h4>`;
 
-        row.innerHTML = `
-          <td>${bus.busName}</td>
-          <td>${bus.busNumber}</td>
-          <td>${bus.busType}</td>
-          <td>${bus.totalSeats}</td>
-          <td>
-            <button onclick='editBus(decodeURIComponent("${encodedBus}"))'>Edit</button>
-          </td>
-        `;
-        tableBody.appendChild(row);
+            const table = document.createElement("table");
+            table.className = "route-table";
+            table.innerHTML = `<thead><tr><th>From</th><th>To</th><th>Stops</th><th>Timings</th><th>Actions</th></tr></thead>`;
+
+            const tbody = document.createElement("tbody");
+            routes.forEach(route => {
+              const row = document.createElement("tr");
+              row.innerHTML = `
+                <td>${route.from}</td>
+                <td>${route.to}</td>
+                <td>${route.stops.join(", ")}</td>
+                <td>${route.timings}</td>
+                <td>
+                  <button onclick='editRoute(${JSON.stringify(route)})'>✏️</button>
+                  <button onclick='deleteRoute("${route.id}")'>🗑️</button>
+                </td>
+              `;
+              tbody.appendChild(row);
+            });
+            table.appendChild(tbody);
+            section.appendChild(table);
+            routeList.appendChild(section);
+          });
       });
-    })
-    .catch(err => {
-      console.error("Failed to load assigned buses", err);
     });
 }
 
-// Populate form for editing
-function editBus(raw) {
-  const bus = JSON.parse(raw);
-  const form = document.getElementById("busForm");
-  form.busName.value = bus.busName;
-  form.busNumber.value = bus.busNumber;
-  form.busType.value = bus.busType;
-  form.deckType.value = bus.deckType;
-  form.sleeperSeats.value = bus.sleeperCount;
-  form.seaterSeats.value = bus.seaterCount;
-  editingBusId = bus.id;
-
-  // Scroll to form and show section
-  showSection("buses");
-  form.scrollIntoView({ behavior: "smooth" });
+function editRoute(route) {
+  editingRouteId = route.id;
+  const form = document.getElementById("routeForm");
+  form.from.value = route.from;
+  form.to.value = route.to;
+  form.stops.value = route.stops.join(", ");
+  form.timings.value = route.timings;
+  selectedBus = { id: route.busId };
 }
 
-// Cancel edit
-function cancelEdit() {
-  const form = document.getElementById("busForm");
-  form.reset();
-  editingBusId = null;
+function deleteRoute(routeId) {
+  fetch(`/api/routes/delete/${routeId}`, { method: "DELETE" })
+    .then(() => loadRoutes());
 }
 
-// Route handling
 document.getElementById("routeForm")?.addEventListener("submit", e => {
   e.preventDefault();
   const form = e.target;
@@ -132,82 +155,30 @@ document.getElementById("routeForm")?.addEventListener("submit", e => {
     timings: form.timings.value
   };
 
-  fetch("/api/routes/add", {
-    method: "POST",
+  const method = editingRouteId ? "PUT" : "POST";
+  const url = editingRouteId ? `/api/routes/update/${editingRouteId}` : "/api/routes/add";
+
+  fetch(url, {
+    method: method,
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(route)
   })
     .then(res => res.json())
-    .then(data => {
-      const div = document.createElement("div");
-      div.innerText = `🛣️ ${data.from} → ${data.to} via ${data.stops.join(", ")} [${data.timings}]`;
-      document.getElementById("routeList").appendChild(div);
+    .then(() => {
       form.reset();
+      editingRouteId = null;
+      loadRoutes();
     });
 });
 
-// Staff handling
-document.getElementById("staffForm")?.addEventListener("submit", e => {
-  e.preventDefault();
-  const form = e.target;
-  const staff = {
-    busId: selectedBus?.id || "",
-    driverName: form.driverName.value,
-    driverContact: form.driverContact.value,
-    conductorName: form.conductorName.value,
-    conductorContact: form.conductorContact.value
-  };
-
-  fetch("/api/staff/add", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(staff)
-  })
-    .then(res => res.json())
-    .then(data => {
-      const box = document.createElement("div");
-      box.className = "bus-card";
-      box.innerHTML = `<strong>Driver:</strong> ${data.driverName} (${data.driverContact})<br>
-                       <strong>Conductor:</strong> ${data.conductorName} (${data.conductorContact})`;
-      document.getElementById("staffList").appendChild(box);
-      form.reset();
-    });
-});
-
-// Schedule handling
-document.getElementById("scheduleForm")?.addEventListener("submit", e => {
-  e.preventDefault();
-  const form = e.target;
-  const schedule = {
-    busId: selectedBus?.id || "",
-    routeId: form.route.value,
-    days: form.days.value
-  };
-
-  fetch("/api/schedules/add", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(schedule)
-  })
-    .then(res => res.json())
-    .then(data => {
-      const item = document.createElement("div");
-      item.className = "bus-card";
-      item.innerText = `🕒 Route: ${data.routeId} → ${data.days}`;
-      document.getElementById("tripScheduleList").appendChild(item);
-      form.reset();
-    });
-});
-
-// Layout
+// ---------------- LAYOUT HANDLING ---------------- //
 function fetchBusesForLayout() {
   const email = document.body.getAttribute("data-email");
-  fetch(`/api/buses/by-operator/${email}`)
+  fetch(`/buses/api/by-operator/${email}`)
     .then(res => res.json())
     .then(buses => {
       const container = document.getElementById("seatLayoutBusCards");
       container.innerHTML = "";
-
       buses.forEach(bus => {
         const card = document.createElement("div");
         card.className = "bus-card";
@@ -218,12 +189,10 @@ function fetchBusesForLayout() {
           <p>Seats: ${bus.totalSeats} (S: ${bus.sleeperCount}, T: ${bus.seaterCount})</p>
           <button class="configure-btn">Configure Seats</button>
         `;
-        const btn = card.querySelector(".configure-btn");
-        btn.addEventListener("click", () => {
+        card.querySelector(".configure-btn").addEventListener("click", () => {
           selectedBus = bus;
           renderRedbusLayout(bus);
         });
-
         container.appendChild(card);
       });
     });
@@ -236,21 +205,14 @@ function renderRedbusLayout(bus) {
   upperDeck.innerHTML = "";
 
   const totalSeats = bus.sleeperCount + bus.seaterCount;
-
   for (let i = 1; i <= totalSeats; i++) {
     const type = i <= bus.sleeperCount ? "sleeper" : "seater";
     const deck = bus.deckType.includes("Upper") && i % 2 === 0 ? "upper" : "lower";
-
     const div = document.createElement("div");
     div.className = `seat ${type}`;
-    div.innerHTML = `
-      ${type === "sleeper" ? "🛏️" : "🪑"} S${i}
-      <input type="number" placeholder="₹" value="500" />
-    `;
-
+    div.innerHTML = `${type === "sleeper" ? "🛎️" : "🧼"} S${i} <input type="number" placeholder="₹" value="500" />`;
     (deck === "upper" ? upperDeck : lowerDeck).appendChild(div);
   }
-
   switchDeck("lower");
 }
 
@@ -261,7 +223,6 @@ function switchDeck(deck) {
   document.getElementById("upperTab").classList.toggle("active", deck === "upper");
 }
 
-// On load
 document.addEventListener("DOMContentLoaded", () => {
   showSection("dashboard");
 });

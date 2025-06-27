@@ -21,12 +21,18 @@ public class SecurityConfig {
                                 "/", "/register", "/login", "/dashboard",
                                 "/admin-dashboard", "/agent-dashboard", "/process-login",
                                 "/css/**", "/js/**", "/images/**", "/fonts/**",
+                                "/buses/update/**","/buses/edit/**",
+                                // ✅ Existing permitted APIs
                                 "/api/auth/**", "/api/agents/**", "/api/buses/**",
-                                "/edit-bus/**","/agent/**"
+
+                                // ✅ NEW: Allow access to /buses/api/**
+                                "/buses/api/**",
+
+                                // ✅ Thymeleaf views and agent tools
+                                "/edit-bus/**", "/agent/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
-                // ✅ Enable form login with default (can customize later)
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/agent-dashboard", true)

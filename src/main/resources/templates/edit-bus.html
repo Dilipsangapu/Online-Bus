@@ -2,33 +2,78 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Edit Bus</title>
-    <link rel="stylesheet" href="/css/agent.css" />
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/edit-bus.css}" />
 </head>
 <body>
-<div class="container">
+
+<div class="edit-bus-container">
     <h2>Edit Bus Details</h2>
-    <form th:action="@{'/agent/edit-bus/' + ${bus.id}}"
-          th:object="${bus}" method="post" class="form-layout">
-        <input type="text" th:field="*{busName}" placeholder="Bus Name" required />
-        <input type="text" th:field="*{busNumber}" placeholder="Bus Number" required />
-        <select th:field="*{busType}" required>
-            <option>AC Seater</option>
-            <option>AC Sleeper</option>
-            <option>Non-AC Seater</option>
-            <option>Non-AC Sleeper</option>
-            <option>Mixed</option>
+
+    <form th:action="@{/buses/update/{id}(id=${bus.id})}" th:object="${bus}" method="post" class="edit-bus-form">
+
+        <label for="busName">Bus Name:</label>
+        <input type="text" id="busName" th:field="*{busName}" required />
+
+        <label for="busNumber">Bus Number:</label>
+        <input type="text" id="busNumber" th:field="*{busNumber}" required />
+
+        <label for="busType">Bus Type:</label>
+        <select id="busType" th:field="*{busType}" required>
+            <option value="">-- Select Bus Type --</option>
+            <option value="AC">AC</option>
+            <option value="Non-AC">Non-AC</option>
         </select>
-        <select th:field="*{deckType}" required>
-            <option>Single</option>
-            <option>Upper + Lower</option>
+
+        <label for="deckType">Deck Type:</label>
+        <select id="deckType" th:field="*{deckType}" required>
+            <option value="">-- Select Deck Type --</option>
+            <option value="Single">Single</option>
+            <option value="Double">Double</option>
+            <option value="Upper">Upper</option>
+            <option value="Lower">Lower</option>
+            <option value="Upper+Lower">Upper+Lower</option>
         </select>
-        <input type="number" th:field="*{sleeperCount}" placeholder="Sleeper Seats" />
-        <input type="number" th:field="*{seaterCount}" placeholder="Seater Seats" />
-        <input type="number" th:field="*{totalSeats}" placeholder="Total Seats" readonly />
-        <input type="text" th:field="*{operatorId}" placeholder="Agent ID" readonly />
-        <input type="text" th:field="*{operatorName}" placeholder="Agent Name" readonly />
-        <button type="submit" class="btn-submit">Save Changes</button>
+
+        <label for="sleeperCount">Sleeper Seats:</label>
+        <input type="number" id="sleeperCount" th:field="*{sleeperCount}" min="0" />
+
+        <label for="seaterCount">Seater Seats:</label>
+        <input type="number" id="seaterCount" th:field="*{seaterCount}" min="0" />
+
+        <label for="totalSeats">Total Seats:</label>
+        <input type="number" id="totalSeats" th:field="*{totalSeats}" readonly />
+
+        <input type="hidden" th:field="*{operatorId}" />
+        <input type="hidden" th:field="*{operatorName}" />
+        <input type="hidden" th:field="*{id}" />
+
+        <div class="form-buttons">
+            <button type="submit">Update Bus</button>
+            <a th:href="@{/agent-dashboard}" class="cancel-btn">Cancel</a>
+        </div>
     </form>
 </div>
+
+<script>
+    // Auto-calculate total seats
+    document.addEventListener("DOMContentLoaded", () => {
+        const sleeperInput = document.getElementById("sleeperCount");
+        const seaterInput = document.getElementById("seaterCount");
+        const totalSeatsInput = document.getElementById("totalSeats");
+
+        function updateTotalSeats() {
+            const sleeper = parseInt(sleeperInput.value) || 0;
+            const seater = parseInt(seaterInput.value) || 0;
+            totalSeatsInput.value = sleeper + seater;
+        }
+
+        sleeperInput.addEventListener("input", updateTotalSeats);
+        seaterInput.addEventListener("input", updateTotalSeats);
+
+        updateTotalSeats();
+    });
+</script>
+
 </body>
 </html>

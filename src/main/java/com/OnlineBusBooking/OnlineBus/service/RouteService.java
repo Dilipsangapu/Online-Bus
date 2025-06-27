@@ -9,14 +9,19 @@ import java.util.List;
 
 @Service
 public class RouteService {
+
     @Autowired
-    private RouteRepository repo;
+    private RouteRepository routeRepository;
 
     public Route saveRoute(Route route) {
-        return repo.save(route);
+        return routeRepository.save(route);
+    }
+
+    public List<Route> getAllRoutes() {
+        return routeRepository.findAll();
     }
 
     public List<Route> getRoutesByBusId(String busId) {
-        return repo.findByBusId(busId);
+        return routeRepository.findByBusId(busId);
     }
 }

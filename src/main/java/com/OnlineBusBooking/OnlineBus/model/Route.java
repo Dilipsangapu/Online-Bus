@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 @Document(collection = "routes")
 public class Route {
+
     @Id
     private String id;
 
@@ -16,5 +17,7 @@ public class Route {
     private String from;
     private String to;
     private List<String> stops;
-    private String timings; // e.g., "10:00 AM - 2:00 PM"
+    private String timings;
+
+
 }
