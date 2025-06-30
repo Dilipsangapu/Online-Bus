@@ -89,12 +89,16 @@
         <section id="routesSection" class="dashboard-section">
             <h2>🗺️ Configure Routes</h2>
             <form id="routeForm" class="form-layout">
+                <select id="busSelect" required>
+                    <option value="">Select Bus</option>
+                </select>
                 <input type="text" name="from" placeholder="From City" required />
                 <input type="text" name="to" placeholder="To City" required />
                 <input type="text" name="stops" placeholder="Intermediate Stops (comma separated)" />
                 <input type="text" name="timings" placeholder="e.g., 10:00 AM - 2:00 PM" required />
                 <button type="submit" class="btn-submit">Add Route</button>
             </form>
+
             <div id="routeList"></div>
         </section>
 
@@ -116,31 +120,43 @@
 
             <div id="lowerDeck" class="seat-grid"></div>
             <div id="upperDeck" class="seat-grid" style="display: none;"></div>
+            <button class="btn-submit" onclick="saveSeatLayout()">💾 Save Layout</button>
         </section>
 
         <!-- Staff -->
         <section id="staffSection" class="dashboard-section">
             <h2>👨‍✈️ Driver & Staff Info</h2>
             <form id="staffForm" class="form-layout">
+                <select id="staffBusSelect" required>
+                    <option value="">Select Bus</option>
+                </select>
                 <input type="text" name="driverName" placeholder="Driver Name" required />
-                <input type="text" name="driverContact" placeholder="Contact Number" required />
+                <input type="text" name="driverContact" placeholder="Driver Contact" required />
                 <input type="text" name="conductorName" placeholder="Conductor Name" />
-                <input type="text" name="conductorContact" placeholder="Contact Number" />
-                <button type="submit" class="btn-submit">Add Staff</button>
+                <input type="text" name="conductorContact" placeholder="Conductor Contact" />
+                <button type="submit" class="btn-submit">Save Staff</button>
             </form>
             <div id="staffList"></div>
         </section>
 
-        <!-- Schedule -->
-        <section id="scheduleSection" class="dashboard-section">
-            <h2>📅 Schedule Trips</h2>
-            <form id="scheduleForm" class="form-layout">
-                <input type="text" name="route" placeholder="Route ID or Name" required />
-                <input type="text" name="days" placeholder="Days (e.g. Mon, Tue, Daily)" required />
-                <button type="submit" class="btn-submit">Add Schedule</button>
-            </form>
+
+        <div id="scheduleSection" class="dashboard-section">
+            <h2>🗓️ Schedule Trips</h2>
+
+            <div class="form-row">
+                <select id="scheduleBusSelect">
+                    <option value="">Select Bus</option>
+                </select>
+                <input type="date" id="scheduleDate" />
+                <input type="time" id="departureTime" placeholder="Departure Time" />
+                <input type="time" id="arrivalTime" placeholder="Arrival Time" />
+                <button onclick="saveSchedule()">💾 Save</button>
+            </div>
+
             <div id="tripScheduleList"></div>
-        </section>
+        </div>
+
+
 
         <!-- Bookings -->
         <section id="bookingsSection" class="dashboard-section">

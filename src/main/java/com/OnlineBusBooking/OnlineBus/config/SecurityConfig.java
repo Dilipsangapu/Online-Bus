@@ -22,17 +22,17 @@ public class SecurityConfig {
                                 "/admin-dashboard", "/agent-dashboard", "/process-login",
                                 "/css/**", "/js/**", "/images/**", "/fonts/**",
                                 "/buses/update/**","/buses/edit/**",
-                                // ✅ Existing permitted APIs
                                 "/api/auth/**", "/api/agents/**", "/api/buses/**",
-
-                                // ✅ NEW: Allow access to /buses/api/**
                                 "/buses/api/**",
-
-                                // ✅ Thymeleaf views and agent tools
+                                "/api/routes/**",
+                                "/api/seats/**",
+                                "/api/schedule/**",  // ✅ This line is required
+                                "/api/**",           // generic fallback
                                 "/edit-bus/**", "/agent/**"
                         ).permitAll()
                         .anyRequest().authenticated()
                 )
+
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/agent-dashboard", true)

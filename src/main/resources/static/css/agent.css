@@ -280,3 +280,55 @@ body, html {
   from { transform: translateY(30px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
+/* Schedule Section Styles */
+#scheduleSection .form-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+  align-items: center;
+}
+
+#scheduleSection select,
+#scheduleSection input,
+#scheduleSection button {
+  padding: 8px 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+#scheduleSection button {
+  background-color: #00b894;
+  color: white;
+  border: none;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+#scheduleSection button:hover {
+  background-color: #019875;
+}
+
+#tripScheduleList h4 {
+  margin-top: 20px;
+  font-size: 18px;
+  color: #111;
+}
+
+#tripScheduleList table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+#tripScheduleList th,
+#tripScheduleList td {
+  padding: 10px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+#tripScheduleList th {
+  background-color: #f1f1f1;
+}
