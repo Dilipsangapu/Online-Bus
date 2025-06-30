@@ -21,13 +21,15 @@ public class SecurityConfig {
                                 "/", "/register", "/login", "/dashboard",
                                 "/admin-dashboard", "/agent-dashboard", "/process-login",
                                 "/css/**", "/js/**", "/images/**", "/fonts/**",
-                                "/buses/update/**","/buses/edit/**",
+                                "/buses/update/**", "/buses/edit/**",
+                                "/buses/api/search", // ✅ <--- ADD THIS LINE EXPLICITLY
                                 "/api/auth/**", "/api/agents/**", "/api/buses/**",
                                 "/buses/api/**",
                                 "/api/routes/**",
+                                "/api/search-buses",
                                 "/api/seats/**",
-                                "/api/schedule/**",  // ✅ This line is required
-                                "/api/**",           // generic fallback
+                                "/api/schedule/**",
+                                "/api/**",
                                 "/edit-bus/**", "/agent/**"
                         ).permitAll()
                         .anyRequest().authenticated()

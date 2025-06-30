@@ -24,4 +24,8 @@ public class RouteService {
     public List<Route> getRoutesByBusId(String busId) {
         return routeRepository.findByBusId(busId);
     }
+    public List<Route> findByFromAndTo(String from, String to) {
+        return routeRepository.findByFromIgnoreCaseAndToIgnoreCase(from, to);
+    }
+
 }

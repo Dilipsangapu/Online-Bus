@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Online Bus Booking</title>
     <link rel="stylesheet" th:href="@{/css/landing.css}" />
+    <meta name="user-email" th:content="${session.email}" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
@@ -29,32 +30,34 @@
     <img src="https://cdn-icons-png.flaticon.com/512/2620/2620972.png" alt="Bus Travel" class="hero-img" />
 </section>
 
-<!-- ✅ Search Bus Section - Upgraded -->
+<!-- ✅ Search Section -->
 <section id="search-section" class="search-section">
     <h2>Search Buses</h2>
     <div class="search-card">
-        <form class="search-form">
+        <form id="busSearchForm" class="search-form">
             <div class="input-group">
                 <label><span>🛫 From</span></label>
-                <input type="text" placeholder="Enter departure city" required />
+                <input type="text" id="fromCity" placeholder="Enter departure city" required />
             </div>
 
             <div class="input-group">
                 <label><span>🛬 To</span></label>
-                <input type="text" placeholder="Enter destination city" required />
+                <input type="text" id="toCity" placeholder="Enter destination city" required />
             </div>
 
             <div class="input-group">
                 <label><span>📅 Journey Date</span></label>
-                <input type="date" required />
+                <input type="date" id="journeyDate" required />
             </div>
 
-            <button type="submit" disabled class="search-btn">🔍 Search Buses</button>
+            <button type="submit" class="search-btn">🔍 Search Buses</button>
             <p class="note">You must login before booking a seat.</p>
         </form>
     </div>
-</section>
 
+    <!-- ✅ Dynamic Results -->
+    <div id="searchResults" class="results-container"></div>
+</section>
 
 <!-- ✅ Trust Banner -->
 <section class="trust-banner">
@@ -82,6 +85,6 @@
 <footer>
     <p>&copy; 2025 OnlineBus. All rights reserved.</p>
 </footer>
-
+<script src="/js/landing.js"></script>
 </body>
 </html>

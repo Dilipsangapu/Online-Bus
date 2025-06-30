@@ -21,4 +21,7 @@ public class Bus {
     private boolean hasUpperDeck;
     private boolean hasLowerDeck;
     private String deckType;
+    private String source;
+    private String destination;
+
 }

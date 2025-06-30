@@ -19,6 +19,7 @@ function showSection(sectionId) {
   if (sectionId === "routes") loadRoutes();
   if (sectionId === "staff") loadStaffSection();
    if (sectionId === "schedule") loadScheduleSection();
+   if (sectionId === "bookings") loadBookings();
 }
 
 function loadDashboardStats() {
@@ -239,10 +240,11 @@ function renderRedbusLayout(bus) {
   const upperDeck = document.getElementById("upperDeck");
   lowerDeck.innerHTML = "";
   upperDeck.innerHTML = "";
+
   const totalSeats = bus.sleeperCount + bus.seaterCount;
   for (let i = 1; i <= totalSeats; i++) {
     const type = i <= bus.sleeperCount ? "sleeper" : "seater";
-    const deck = bus.deckType.includes("Upper") && i % 2 === 0 ? "upper" : "lower";
+    const deck = type === "sleeper" ? "upper" : "lower";
     const div = document.createElement("div");
     div.className = `seat ${type}`;
     div.innerHTML = `${type === "sleeper" ? "🏋️" : "🛅"} S${i} <input type="number" placeholder="₹" value="500" />`;
@@ -512,8 +514,55 @@ document.getElementById("saveScheduleBtn")?.addEventListener("click", async () =
     alert("❌ Failed to save schedule. See console.");
   }
 });
+function loadBookings() {
+  const agentId = document.body.getAttribute("data-email");
 
+  fetch(`/buses/api/by-operator/${agentId}`)
+    .then(res => res.json())
+    .then(buses => {
+      const container = document.getElementById("bookingList");
+      container.innerHTML = "";
 
+      buses.forEach(bus => {
+        fetch(`/api/bookings/by-bus/${bus.id}`)
+          .then(res => res.json())
+          .then(bookings => {
+            if (bookings.length === 0) return;
+
+            const section = document.createElement("div");
+            section.innerHTML = `<h4>🚌 ${bus.busName}</h4>`;
+
+            const table = document.createElement("table");
+            table.className = "route-table";
+            table.innerHTML = `
+              <thead>
+                <tr>
+                  <th>Customer</th><th>Email</th><th>Date</th>
+                  <th>Seat</th><th>Fare</th><th>Status</th>
+                </tr>
+              </thead>`;
+
+            const tbody = document.createElement("tbody");
+            bookings.forEach(b => {
+              const row = document.createElement("tr");
+              row.innerHTML = `
+                <td>${b.customerName}</td>
+                <td>${b.customerEmail}</td>
+                <td>${b.bookingDate}</td>
+                <td>${b.seatNumber}</td>
+                <td>₹${b.fare}</td>
+                <td>${b.status}</td>
+              `;
+              tbody.appendChild(row);
+            });
+
+            table.appendChild(tbody);
+            section.appendChild(table);
+            container.appendChild(section);
+          });
+      });
+    });
+}
 document.addEventListener("DOMContentLoaded", () => {
   showSection("dashboard");
 });

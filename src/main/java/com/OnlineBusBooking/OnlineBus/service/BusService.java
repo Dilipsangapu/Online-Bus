@@ -25,4 +25,17 @@ public class BusService {
     public Optional<Bus> getBusById(String id) {
         return busRepository.findById(id);
     }
+
+    public List<Bus> getAllBuses() {
+        return busRepository.findAll();
+    }
+    public List<Bus> searchBuses(String source, String destination) {
+        return busRepository.findBySourceIgnoreCaseAndDestinationIgnoreCase(source, destination);
+    }
+    public List<Bus> getBusesByIds(List<String> ids) {
+        return busRepository.findAllById(ids);
+    }
+
 }
+
+

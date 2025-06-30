@@ -1,7 +1,9 @@
 package com.OnlineBusBooking.OnlineBus.controller;
 
 import com.OnlineBusBooking.OnlineBus.model.Bus;
+import com.OnlineBusBooking.OnlineBus.model.Route;
 import com.OnlineBusBooking.OnlineBus.service.BusService;
+import com.OnlineBusBooking.OnlineBus.service.RouteService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -83,4 +85,22 @@ public class BusController {
     public List<Bus> getBusesByOperatorId(@PathVariable String operatorId) {
         return busService.getBusesByOperator(operatorId);
     }
+    @Autowired
+    private RouteService routeService;
+
+    @GetMapping("/api/search")
+    @ResponseBody
+    public List<Bus> searchBuses(@RequestParam String from, @RequestParam String to, @RequestParam String date) {
+        // Step 1: Get matching routes
+        List<Route> routes = routeService.findByFromAndTo(from, to);
+
+        // Step 2: Extract busIds
+        List<String> busIds = routes.stream()
+                .map(Route::getBusId)
+                .toList();
+
+        // Step 3: Get buses by IDs
+        return busService.getBusesByIds(busIds);
+    }
+
 }
