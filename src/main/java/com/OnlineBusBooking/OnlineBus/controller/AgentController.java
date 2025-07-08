@@ -1,11 +1,6 @@
 package com.OnlineBusBooking.OnlineBus.controller;
 
 import com.OnlineBusBooking.OnlineBus.model.Bus;
-<<<<<<< HEAD
-import com.OnlineBusBooking.OnlineBus.repository.BusRepository;
-import jakarta.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
-=======
 import com.OnlineBusBooking.OnlineBus.model.User;
 import com.OnlineBusBooking.OnlineBus.repository.BusRepository;
 import com.OnlineBusBooking.OnlineBus.repository.UserRepository;
@@ -13,7 +8,6 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
->>>>>>> aa3dc81 (updated)
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -29,9 +23,6 @@ public class AgentController {
     @Autowired
     private BusRepository busRepository;
 
-<<<<<<< HEAD
-    // Show Agent Dashboard
-=======
     @Autowired
     private UserRepository userRepository;
 
@@ -39,7 +30,6 @@ public class AgentController {
     private PasswordEncoder passwordEncoder;
 
     // ✅ Agent Dashboard
->>>>>>> aa3dc81 (updated)
     @GetMapping("/dashboard")
     public String showAgentDashboard(HttpSession session, Model model) {
         String email = (String) session.getAttribute("email");
@@ -54,28 +44,16 @@ public class AgentController {
         return "agentDashboard";
     }
 
-<<<<<<< HEAD
-    // Return buses assigned to agent
-=======
     // ✅ Get buses assigned to agent
->>>>>>> aa3dc81 (updated)
     @GetMapping("/buses")
     @ResponseBody
     public List<Bus> getAgentBuses(HttpSession session) {
         String email = (String) session.getAttribute("email");
         if (email == null) return List.of();
-<<<<<<< HEAD
-
-        return busRepository.findByOperatorId(email);
-    }
-
-    // Show edit form
-=======
         return busRepository.findByOperatorId(email);
     }
 
     // ✅ Show bus edit form
->>>>>>> aa3dc81 (updated)
     @GetMapping("/edit-bus/{id}")
     public ModelAndView showEditBusForm(@PathVariable String id, HttpSession session) {
         if (session.getAttribute("email") == null) {
@@ -83,22 +61,11 @@ public class AgentController {
         }
 
         Optional<Bus> busOpt = busRepository.findById(id);
-<<<<<<< HEAD
-        if (busOpt.isEmpty()) {
-            return new ModelAndView("error").addObject("message", "Bus not found");
-        }
-
-        return new ModelAndView("edit-bus").addObject("bus", busOpt.get());
-    }
-
-    // Save updated bus
-=======
         return busOpt.map(bus -> new ModelAndView("edit-bus").addObject("bus", bus))
                 .orElseGet(() -> new ModelAndView("error").addObject("message", "Bus not found"));
     }
 
     // ✅ Save updated bus
->>>>>>> aa3dc81 (updated)
     @PostMapping("/edit-bus/{id}")
     public ModelAndView updateBus(@PathVariable String id, @ModelAttribute Bus updatedBus, HttpSession session) {
         if (session.getAttribute("email") == null) {
@@ -112,10 +79,6 @@ public class AgentController {
 
         Bus existingBus = existingBusOpt.get();
 
-<<<<<<< HEAD
-        // Preserve operator & ID
-=======
->>>>>>> aa3dc81 (updated)
         updatedBus.setId(existingBus.getId());
         updatedBus.setOperatorId(existingBus.getOperatorId());
         updatedBus.setOperatorName(existingBus.getOperatorName());
@@ -125,11 +88,6 @@ public class AgentController {
         updatedBus.setHasLowerDeck(true);
 
         busRepository.save(updatedBus);
-<<<<<<< HEAD
-
-        return new ModelAndView("redirect:/agent/dashboard");
-    }
-=======
         return new ModelAndView("redirect:/agent/dashboard");
     }
 
@@ -148,7 +106,7 @@ public class AgentController {
             return ResponseEntity.badRequest().body("❌ Agent with this email already exists.");
         }
 
-        agent.setRole("agent");
+        agent.setRole("AGENT");
         agent.setPassword(passwordEncoder.encode(agent.getPassword()));
 
         userRepository.save(agent);
@@ -159,7 +117,6 @@ public class AgentController {
     @GetMapping("/api/agents/all")
     @ResponseBody
     public List<User> getOnlyAgents() {
-        return userRepository.findByRole("agent");
+        return userRepository.findByRole("AGENT");
     }
->>>>>>> aa3dc81 (updated)
 }
