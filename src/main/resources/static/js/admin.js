@@ -11,7 +11,11 @@ document.getElementById("agentForm").addEventListener("submit", function (e) {
 
   const name = form.name.value.trim();
   const contactPerson = form.contactPerson.value.trim();
+<<<<<<< HEAD
   const email = form.email.value.trim();
+=======
+  const email = form.email.value.trim().toLowerCase();  // ✅ Make email lowercase
+>>>>>>> aa3dc81 (updated)
   const phone = form.phone.value.trim();
   const password = form.password.value.trim();
   const confirmPassword = form.confirmPassword.value.trim();
@@ -26,9 +30,22 @@ document.getElementById("agentForm").addEventListener("submit", function (e) {
     return;
   }
 
+<<<<<<< HEAD
   const agent = { name, contactPerson, email, phone, password };
 
   fetch("/api/agents/add", {
+=======
+  const agent = {
+    name,
+    contactPerson,
+    email,
+    phone,
+    password,
+    role: "AGENT"  // ✅ Include role explicitly
+  };
+
+  fetch("/agent/api/agents/add", {
+>>>>>>> aa3dc81 (updated)
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(agent)
@@ -42,7 +59,11 @@ document.getElementById("agentForm").addEventListener("submit", function (e) {
 });
 
 function loadAgents() {
+<<<<<<< HEAD
   fetch("/api/agents/all")
+=======
+  fetch("/agent/api/agents/all")
+>>>>>>> aa3dc81 (updated)
     .then(res => res.json())
     .then(data => {
       const container = document.getElementById("agentList");

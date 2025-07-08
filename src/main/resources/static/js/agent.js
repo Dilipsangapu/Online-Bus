@@ -419,6 +419,11 @@ function loadScheduleSection() {
         option.textContent = `${bus.busName} (${bus.busNumber})`;
         select.appendChild(option);
       });
+<<<<<<< HEAD
+=======
+
+      // 🔁 Delay load until dropdown is built
+>>>>>>> aa3dc81 (updated)
       loadScheduleList(buses);
     });
 }
@@ -426,11 +431,19 @@ function loadScheduleSection() {
 function loadScheduleList(buses) {
   const container = document.getElementById("tripScheduleList");
   container.innerHTML = "";
+<<<<<<< HEAD
+=======
+
+>>>>>>> aa3dc81 (updated)
   buses.forEach(bus => {
     fetch(`/api/schedule/by-bus/${bus.id}`)
       .then(res => res.json())
       .then(schedules => {
+<<<<<<< HEAD
         if (schedules.length === 0) return;
+=======
+        if (!schedules || schedules.length === 0) return;
+>>>>>>> aa3dc81 (updated)
 
         const section = document.createElement("div");
         section.innerHTML = `<h4>🚌 ${bus.busName}</h4>`;
@@ -438,7 +451,13 @@ function loadScheduleList(buses) {
         const table = document.createElement("table");
         table.className = "route-table";
         table.innerHTML = `
+<<<<<<< HEAD
           <thead><tr><th>Date</th><th>Departure</th><th>Arrival</th><th>Actions</th></tr></thead>
+=======
+          <thead>
+            <tr><th>Date</th><th>Departure</th><th>Arrival</th><th>Actions</th></tr>
+          </thead>
+>>>>>>> aa3dc81 (updated)
         `;
 
         const tbody = document.createElement("tbody");
@@ -465,6 +484,7 @@ function loadScheduleList(buses) {
 
 function editSchedule(schedule) {
   editingScheduleId = schedule.id;
+<<<<<<< HEAD
   document.getElementById("scheduleDate").value = schedule.date;
   document.getElementById("departureTime").value = schedule.departureTime;
   document.getElementById("arrivalTime").value = schedule.arrivalTime;
@@ -474,6 +494,18 @@ function editSchedule(schedule) {
 function deleteSchedule(id) {
   fetch(`/api/schedule/delete/${id}`, { method: "DELETE" })
     .then(() => loadScheduleSection());
+=======
+  document.getElementById("scheduleBusSelect").value = schedule.busId;
+  document.getElementById("scheduleDate").value = schedule.date;
+  document.getElementById("departureTime").value = schedule.departureTime;
+  document.getElementById("arrivalTime").value = schedule.arrivalTime;
+}
+
+function deleteSchedule(id) {
+  fetch(`/api/schedule/delete/${id}`, {
+    method: "DELETE"
+  }).then(() => loadScheduleSection());
+>>>>>>> aa3dc81 (updated)
 }
 
 document.getElementById("saveScheduleBtn")?.addEventListener("click", async () => {
@@ -485,16 +517,30 @@ document.getElementById("saveScheduleBtn")?.addEventListener("click", async () =
   };
 
   if (!schedule.busId || !schedule.date || !schedule.departureTime || !schedule.arrivalTime) {
+<<<<<<< HEAD
     alert("Please fill in all schedule fields");
     return;
   }
 
   const url = editingScheduleId ? `/api/schedule/update/${editingScheduleId}` : "/api/schedule/add";
+=======
+    alert("Please fill in all schedule fields.");
+    return;
+  }
+
+  const url = editingScheduleId
+    ? `/api/schedule/update/${editingScheduleId}`
+    : "/api/schedule/add";
+>>>>>>> aa3dc81 (updated)
   const method = editingScheduleId ? "PUT" : "POST";
 
   try {
     const res = await fetch(url, {
+<<<<<<< HEAD
       method: method,
+=======
+      method,
+>>>>>>> aa3dc81 (updated)
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(schedule)
     });
@@ -504,6 +550,7 @@ document.getElementById("saveScheduleBtn")?.addEventListener("click", async () =
       throw new Error(`HTTP ${res.status}: ${text}`);
     }
 
+<<<<<<< HEAD
     document.getElementById("scheduleDate").value = "";
     document.getElementById("departureTime").value = "";
     document.getElementById("arrivalTime").value = "";
@@ -514,6 +561,20 @@ document.getElementById("saveScheduleBtn")?.addEventListener("click", async () =
     alert("❌ Failed to save schedule. See console.");
   }
 });
+=======
+    // Reset form and reload
+    editingScheduleId = null;
+    document.getElementById("scheduleDate").value = "";
+    document.getElementById("departureTime").value = "";
+    document.getElementById("arrivalTime").value = "";
+    loadScheduleSection();
+  } catch (err) {
+    console.error("❌ Error saving schedule:", err);
+    alert("❌ Failed to save schedule.");
+  }
+});
+
+>>>>>>> aa3dc81 (updated)
 function loadBookings() {
   const agentId = document.body.getAttribute("data-email");
 
